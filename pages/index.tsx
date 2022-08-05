@@ -1,10 +1,10 @@
 import type { NextPage } from "next";
-import { DescriptionProps } from "../src/types/index";
+import { InstructionProps } from "../src/types/index";
 
 import styled from "styled-components";
 import { useRouter } from "next/router";
 
-import Description from "../src/features/home/Description";
+import Instrunction from "../src/features/home/Instruction";
 import Button from "../src/common/components/Button";
 
 const BottonContainer = styled.div`
@@ -13,19 +13,20 @@ const BottonContainer = styled.div`
   justify-content: center;
   align-items: center;
   width: 80%;
-  height: 30%;
-  min-height: 30vh;
+  height: 20%;
+  min-height: 20vh;
 `;
 
-const Home: NextPage<DescriptionProps> = ({ description }) => {
+const Home: NextPage<InstructionProps> = ({ data }) => {
   const router = useRouter();
 
   const handleProblemPage = () => {
     router.push("/problem");
   };
+
   return (
     <>
-      <Description description={description} />
+      <Instrunction data={data} />
 
       <BottonContainer>
         <Button label="퀴즈 시작" onClick={handleProblemPage} />
@@ -40,7 +41,7 @@ export const getStaticProps = async () => {
 
   return {
     props: {
-      description: data,
+      data,
     },
   };
 };
