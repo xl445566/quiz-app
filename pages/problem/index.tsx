@@ -3,15 +3,18 @@ import { ProblemProps } from "../../src/types/index";
 
 import { useState } from "react";
 import { useRouter } from "next/router";
-import { decode } from "punycode";
+
+import generateRandomIndex from "../../src/common/utils/generateRandomIndex";
 
 const Problem: NextPage<ProblemProps> = ({ problems }) => {
   const router = useRouter();
   const [number, setNumber] = useState<number>(0);
 
-  const handleHomePage = () => {
-    router.push("/");
+  const handleNextProblem = () => {
+    setNumber((number) => number + 1);
   };
+
+  // generateRandomIndex(4)
 
   return (
     <>
@@ -25,8 +28,8 @@ const Problem: NextPage<ProblemProps> = ({ problems }) => {
           )
         )}
       </div>
-      <br />
-      <button onClick={handleHomePage}>돌아가기</button>
+
+      <button onClick={handleNextProblem}>다음 문제</button>
     </>
   );
 };
@@ -36,7 +39,7 @@ export const getServerSideProps = async () => {
     "https://opentdb.com/api.php?amount=10&type=multiple"
   );
   const data = await response.json();
-
+  console.log(data);
   return {
     props: {
       problems: data,
