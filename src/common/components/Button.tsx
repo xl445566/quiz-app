@@ -13,6 +13,9 @@ const Wrapper = styled.button`
   background-color: var(--point-color);
   color: var(--white-color);
   font-size: 1rem;
+  :hover {
+    background-color: var(--sub-color);
+  }
 `;
 
 const Button: NextPage<ButtonProps> = ({ label, onClick }) => {
