@@ -3,7 +3,7 @@ import type { AppProps } from "next/app";
 
 import styled from "styled-components";
 
-import GlobalStyle from "../styles/globals";
+import GlobalStyle from "../styles/globalStyle";
 import Header from "../src/common/components/Header";
 import Footer from "../src/common/components/Footer";
 

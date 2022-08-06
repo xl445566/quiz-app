@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 import { QuizProps } from "../../types/index";
 
 import React from "react";
-import styled from "styled-components";
+import styled, { AnswerProps } from "styled-components";
 
 import Section from "../../common/components/Section";
 import Title from "../../common/components/Title";
@@ -22,25 +22,67 @@ const Answers = styled.article`
   min-height: 30vh;
 `;
 
-const Answer = styled.div`
+const Answer = styled.div<AnswerProps>`
   width: 100%;
   min-width: 30vh;
   height: 100%;
   padding: 10px;
-  border: 2px solid var(--point-color);
+  border: ${(props) => {
+    if (props.selectedAnswer === "") {
+      return "2px solid var(--point-color)";
+    } else if (
+      props.textContent === props.correctAnswer &&
+      props.textContent === props.selectedAnswer
+    ) {
+      return "2px solid var(--point-color)";
+    } else if (props.textContent === props.selectedAnswer) {
+      return "2px solid var(--red-color)";
+    } else if (props.textContent === props.correctAnswer) {
+      return "2px solid var(--point-color)";
+    } else {
+      return "2px solid var(--point-color)";
+    }
+  }};
   border-radius: 10px;
+  color: ${(props) => {
+    if (props.selectedAnswer === "") {
+      return "var(--black-color)";
+    } else if (
+      props.textContent === props.correctAnswer &&
+      props.textContent === props.selectedAnswer
+    ) {
+      return "var(--white-color)";
+    } else if (props.textContent === props.selectedAnswer) {
+      return "var(--white-color)";
+    } else if (props.textContent === props.correctAnswer) {
+      return "var(--white-color)";
+    }
+  }};
+  background: ${(props) => {
+    if (props.selectedAnswer === "") {
+      return "var(--white-color)";
+    } else if (
+      props.textContent === props.correctAnswer &&
+      props.textContent === props.selectedAnswer
+    ) {
+      return "var(--point-color)";
+    } else if (props.textContent === props.selectedAnswer) {
+      return "var(--red-color)";
+    } else if (props.textContent === props.correctAnswer) {
+      return "var(--point-color)";
+    } else {
+      return "var(--white-color)";
+    }
+  }};
   cursor: pointer;
-  :hover {
-    color: var(--white-color);
-    background: var(--point-color);
-  }
 `;
 
 const Quiz: NextPage<QuizProps> = ({
   problems,
   number,
   mixedNumbers,
-  onClick,
+  selectedAnswer,
+  onCorrectClick,
 }) => {
   return (
     <Section>
@@ -53,7 +95,13 @@ const Quiz: NextPage<QuizProps> = ({
       <Answers>
         {mixedNumbers.map((value: number) => {
           return (
-            <Answer key={value} onClick={onClick}>
+            <Answer
+              key={value}
+              onClick={onCorrectClick}
+              textContent={problems.list[number].answers[value]}
+              selectedAnswer={selectedAnswer}
+              correctAnswer={problems.list[number].correctAnswer}
+            >
               {problems.list[number].answers[value]}
             </Answer>
           );

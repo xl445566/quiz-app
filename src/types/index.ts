@@ -1,10 +1,17 @@
 import React from "react";
 
+export type OnClick = (
+  event:
+    | React.MouseEvent<HTMLButtonElement | HTMLDivElement>
+    | React.TouchEvent<HTMLButtonElement | HTMLDivElement>
+) => void;
+
 export interface QuizProps {
   problems: Problems;
   number: number;
   mixedNumbers: number[];
-  onClick: () => void;
+  selectedAnswer: string;
+  onCorrectClick: OnClick;
 }
 
 export interface Problems {
@@ -15,6 +22,7 @@ export interface Problems {
 export interface Problem {
   question: string;
   correctAnswer: string;
+  incorrectAnswers: string[];
   answers: string[];
 }
 
@@ -34,11 +42,7 @@ export interface ProblemProps {
 
 export interface ButtonProps {
   label: string;
-  onClick: (
-    event:
-      | React.MouseEvent<HTMLButtonElement>
-      | React.TouchEvent<HTMLButtonElement>
-  ) => void;
+  onClick: OnClick;
 }
 
 export interface InstructionProps {

@@ -1,7 +1,13 @@
 import type { NextPage } from "next";
-import { ProblemProps, Problems, OriginProblem } from "../../src/types/index";
+import {
+  ProblemProps,
+  Problems,
+  OriginProblem,
+  OnClick,
+} from "../../src/types/index";
 
 import { useState } from "react";
+import { useRouter } from "next/router";
 import styled from "styled-components";
 
 import generateRandomIndex from "../../src/common/utils/generateRandomIndex";
@@ -20,23 +26,32 @@ const BottonContainer = styled.div`
 `;
 
 const Problem: NextPage<ProblemProps> = ({ problems, randomNumbers }) => {
+  const router = useRouter();
   const [number, setNumber] = useState<number>(0);
   const [mixedNumbers, setMixedNumbers] =
     useState<Array<number>>(randomNumbers);
-  const [isButtonVisible, setIsButtonVisible] = useState<boolean>(false);
+  const [selectedAnswer, setSelectedAnswer] = useState<string>("");
 
   const handleNextProblem = () => {
     if (problems.list.length - 1 > number) {
       setNumber((state) => state + 1);
       setMixedNumbers(generateRandomIndex(4));
-      setIsButtonVisible(false);
+      setSelectedAnswer("");
     }
   };
 
-  const handleCorrectClick = () => {
-    if (!isButtonVisible) {
-      setIsButtonVisible(true);
+  const handleCorrectClick: OnClick = (event) => {
+    if (!selectedAnswer) {
+      setSelectedAnswer(
+        event.currentTarget.textContent === null
+          ? ""
+          : event.currentTarget.textContent
+      );
     }
+  };
+
+  const handleChartPage = () => {
+    router.push("chart");
   };
 
   return (
@@ -45,13 +60,16 @@ const Problem: NextPage<ProblemProps> = ({ problems, randomNumbers }) => {
         problems={problems}
         number={number}
         mixedNumbers={mixedNumbers}
-        onClick={handleCorrectClick}
+        selectedAnswer={selectedAnswer}
+        onCorrectClick={handleCorrectClick}
       />
 
       <BottonContainer>
-        {isButtonVisible && (
+        {selectedAnswer && number < 9 && (
           <Button label="다음 문제" onClick={handleNextProblem} />
         )}
+
+        {number === 9 && <Button label="결과 보기" onClick={handleChartPage} />}
       </BottonContainer>
     </>
   );
@@ -62,25 +80,30 @@ export const getServerSideProps = async () => {
     "https://opentdb.com/api.php?amount=10&type=multiple&encode=url3986"
   );
   const data = await response.json();
+  const randomNumbers = generateRandomIndex(4);
   const problems: Problems = {
     status: data.response_code,
     list: data.results.map((value: OriginProblem) => {
+      const question = decodeURIComponent(value.question);
+      const correctAnswer = decodeURIComponent(value.correct_answer);
+      const incorrectAnswers = value.incorrect_answers.map((value) =>
+        decodeURIComponent(value)
+      );
+      const answers = [correctAnswer, ...incorrectAnswers];
+
       return {
-        question: decodeURIComponent(value.question),
-        correctAnswer: decodeURIComponent(value.correct_answer),
-        answers: [
-          decodeURIComponent(value.correct_answer),
-          ...value.incorrect_answers.map((value) => decodeURIComponent(value)),
-        ],
+        question,
+        correctAnswer,
+        incorrectAnswers,
+        answers,
       };
     }),
   };
-  const randomNumbers = generateRandomIndex(4);
 
   return {
     props: {
-      problems,
       randomNumbers,
+      problems,
     },
   };
 };

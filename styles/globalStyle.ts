@@ -4,6 +4,7 @@ const GlobalStyle = createGlobalStyle`
   :root {
     --point-color: #087AD8;
     --sub-color: #244f91;
+    --red-color: #d92e36;
     --white-color: #FFFFFF;
     --black-color: #1A1A1A;
     --dark-gray-color: #7f8c8d;
