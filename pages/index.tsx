@@ -1,21 +1,11 @@
 import type { NextPage } from "next";
 import { InstructionProps } from "../src/types/index";
 
-import styled from "styled-components";
 import { useRouter } from "next/router";
 
 import Instrunction from "../src/features/home/Instruction";
 import Button from "../src/common/components/Button";
-
-const BottonContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 80%;
-  height: 20%;
-  min-height: 20vh;
-`;
+import BottonContainer from "../src/common/components/ButtonContainer";
 
 const Home: NextPage<InstructionProps> = ({ data }) => {
   const router = useRouter();

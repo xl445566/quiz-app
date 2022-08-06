@@ -6,31 +6,48 @@ import {
   OnClick,
 } from "../../src/types/index";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import styled from "styled-components";
+import { useStore } from "../../src/lib/store";
 
 import generateRandomIndex from "../../src/common/utils/generateRandomIndex";
 
+import BottonContainer from "../../src/common/components/ButtonContainer";
 import Button from "../../src/common/components/Button";
 import Quiz from "../../src/features/problem/Quiz";
 
-const BottonContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 80%;
-  height: 20%;
-  min-height: 20vh;
-`;
-
 const Problem: NextPage<ProblemProps> = ({ problems, randomNumbers }) => {
+  const {
+    addTime,
+    addCorrectQuestion,
+    addIncorrectQuestion,
+    quizData,
+    setQuizData,
+    init,
+  } = useStore();
   const router = useRouter();
   const [number, setNumber] = useState<number>(0);
   const [mixedNumbers, setMixedNumbers] =
     useState<Array<number>>(randomNumbers);
   const [selectedAnswer, setSelectedAnswer] = useState<string>("");
+
+  useEffect(() => {
+    init();
+
+    if (!quizData.list.length) {
+      setQuizData(problems);
+    }
+  }, [problems]);
+
+  useEffect(() => {
+    const intervalID = setInterval(() => {
+      addTime();
+    }, 1000);
+
+    return () => {
+      clearInterval(intervalID);
+    };
+  }, []);
 
   const handleNextProblem = () => {
     if (problems.list.length - 1 > number) {
@@ -42,11 +59,19 @@ const Problem: NextPage<ProblemProps> = ({ problems, randomNumbers }) => {
 
   const handleCorrectClick: OnClick = (event) => {
     if (!selectedAnswer) {
-      setSelectedAnswer(
-        event.currentTarget.textContent === null
-          ? ""
-          : event.currentTarget.textContent
-      );
+      const content = event.currentTarget.textContent || "";
+      const question = quizData.list.length
+        ? quizData.list[number]
+        : problems.list[number];
+      const correctAnswer = question.correctAnswer;
+
+      if (content === correctAnswer) {
+        addCorrectQuestion(question);
+      } else {
+        addIncorrectQuestion(question);
+      }
+
+      setSelectedAnswer(content);
     }
   };
 
@@ -57,7 +82,7 @@ const Problem: NextPage<ProblemProps> = ({ problems, randomNumbers }) => {
   return (
     <>
       <Quiz
-        problems={problems}
+        problems={quizData.list.length ? quizData : problems}
         number={number}
         mixedNumbers={mixedNumbers}
         selectedAnswer={selectedAnswer}
@@ -69,7 +94,9 @@ const Problem: NextPage<ProblemProps> = ({ problems, randomNumbers }) => {
           <Button label="다음 문제" onClick={handleNextProblem} />
         )}
 
-        {number === 9 && <Button label="결과 보기" onClick={handleChartPage} />}
+        {selectedAnswer && number === 9 && (
+          <Button label="결과 보기" onClick={handleChartPage} />
+        )}
       </BottonContainer>
     </>
   );

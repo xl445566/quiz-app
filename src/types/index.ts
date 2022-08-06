@@ -1,11 +1,39 @@
 import React from "react";
 
+// zustand
+export interface Store {
+  quizData: Problems;
+  correctQuestions: Problem[];
+  incorrectQuestions: Problem[];
+  time: number;
+  setQuizData: (problems: Problems) => void;
+  addCorrectQuestion: (question: Problem) => void;
+  addIncorrectQuestion: (question: Problem) => void;
+  addTime: () => void;
+  init: () => void;
+  resetQuizData: () => void;
+}
+
+// common
 export type OnClick = (
   event:
     | React.MouseEvent<HTMLButtonElement | HTMLDivElement>
     | React.TouchEvent<HTMLButtonElement | HTMLDivElement>
 ) => void;
 
+export interface ButtonProps {
+  label: string;
+  onClick: OnClick;
+}
+
+// chart
+export interface DonutChartProps {
+  time: string;
+  correctQuestions: Problem[];
+  incorrectQuestions: Problem[];
+}
+
+// problem
 export interface QuizProps {
   problems: Problems;
   number: number;
@@ -40,11 +68,7 @@ export interface ProblemProps {
   randomNumbers: number[];
 }
 
-export interface ButtonProps {
-  label: string;
-  onClick: OnClick;
-}
-
+// home
 export interface InstructionProps {
   data: InstructionData;
 }

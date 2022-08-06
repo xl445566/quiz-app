@@ -6,4 +6,8 @@ declare module "styled-components" {
     selectedAnswer: string;
     correctAnswer: string;
   }
+
+  export interface ContentProps {
+    value: boolean;
+  }
 }
