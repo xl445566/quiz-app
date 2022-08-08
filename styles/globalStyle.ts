@@ -3,8 +3,9 @@ import { createGlobalStyle } from "styled-components";
 const GlobalStyle = createGlobalStyle`
   :root {
     --point-color: #087AD8;
-    --sub-color: #244f91;
+    --pointSub-color: #244f91;
     --red-color: #d92e36;
+    --redSub-color: #a61629;
     --white-color: #FFFFFF;
     --black-color: #1A1A1A;
     --dark-gray-color: #7f8c8d;

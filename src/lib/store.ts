@@ -10,6 +10,10 @@ export const useStore = create<Store>((set) => ({
   correctQuestions: [],
   incorrectQuestions: [],
   time: 0,
+  noteData: {
+    items: {},
+    ids: [],
+  },
   setQuizData: (problems) => {
     set(() => ({
       quizData: problems,
@@ -43,6 +47,11 @@ export const useStore = create<Store>((set) => ({
         status: 0,
         list: [],
       },
+    }));
+  },
+  setNoteData: (data) => {
+    set(() => ({
+      noteData: data,
     }));
   },
 }));
