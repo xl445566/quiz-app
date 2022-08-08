@@ -89,7 +89,7 @@ const Problem: NextPage<ProblemProps> = ({ problems, randomNumbers }) => {
         onCorrectClick={handleCorrectClick}
       />
 
-      <BottonContainer>
+      <BottonContainer direction="row">
         {selectedAnswer && number < 9 && (
           <Button label="다음 문제" onClick={handleNextProblem} />
         )}
