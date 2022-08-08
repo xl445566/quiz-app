@@ -9,6 +9,9 @@ const Section = styled.section`
   height: 40%;
   min-height: 40vh;
   text-align: center;
+  @media screen and (max-width: 500px) {
+    flex-direction: column;
+  }
 `;
 
 export default Section;
