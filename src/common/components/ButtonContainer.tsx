@@ -1,14 +1,13 @@
-import styled from "styled-components";
+import styled, { ButtonContainerProps } from "styled-components";
 
-const BottonContainer = styled.div`
+const BottonContainer = styled.div<ButtonContainerProps>`
   display: flex;
-  justify-content: space-around;
+  flex-direction: ${(props) => props.direction};
+  justify-content: space-evenly;
   align-items: center;
-  width: 80%;
+  width: 100%;
   height: 20%;
   min-height: 20vh;
-  margin-left: 10px;
-  margin-right: 10px;
 `;
 
 export default BottonContainer;

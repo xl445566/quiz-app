@@ -6,15 +6,42 @@ export interface Store {
   correctQuestions: Problem[];
   incorrectQuestions: Problem[];
   time: number;
+  noteData: NoteData;
   setQuizData: (problems: Problems) => void;
   addCorrectQuestion: (question: Problem) => void;
   addIncorrectQuestion: (question: Problem) => void;
   addTime: () => void;
   init: () => void;
   resetQuizData: () => void;
+  setNoteData: (noteData: NoteData) => void;
+}
+
+// localStorage
+export type LocalStorage = typeof window.localStorage;
+
+export enum NoteStorageKey {
+  NOTE_DATA = "noteData",
+}
+
+export interface NoteData {
+  items: {
+    [key: string]: Note;
+  };
+  ids: string[];
+}
+
+export interface Note {
+  question: string;
+  correctAnswer: string;
+  incorrectAnswers: string[];
+  memo: string;
 }
 
 // common
+export type ClickEvent =
+  | React.MouseEvent<HTMLButtonElement | HTMLDivElement>
+  | React.TouchEvent<HTMLButtonElement | HTMLDivElement>;
+
 export type OnClick = (
   event:
     | React.MouseEvent<HTMLButtonElement | HTMLDivElement>
@@ -24,6 +51,20 @@ export type OnClick = (
 export interface ButtonProps {
   label: string;
   onClick: OnClick;
+  color?: string;
+  hoverColor?: string;
+}
+
+// note
+export interface RecordProps {
+  data: NoteData;
+  onClick: OnClick;
+}
+
+export interface DetailProps {
+  data: Note;
+  isOpen: boolean;
+  setIsOpen: (state: boolean) => void;
 }
 
 // chart

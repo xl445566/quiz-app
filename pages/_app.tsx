@@ -5,7 +5,6 @@ import styled from "styled-components";
 
 import GlobalStyle from "../styles/globalStyle";
 import Header from "../src/common/components/Header";
-import Footer from "../src/common/components/Footer";
 
 const Layout = styled.main`
   display: flex;
@@ -13,8 +12,8 @@ const Layout = styled.main`
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 100%;
-  min-height: calc(100vh - 100px);
+  min-height: calc(100vh - 50px);
+  max-height: calc(100vh - 50px);
 `;
 
 const MyApp: NextPage<AppProps> = ({ Component, pageProps }) => {
@@ -26,8 +25,6 @@ const MyApp: NextPage<AppProps> = ({ Component, pageProps }) => {
       <Layout>
         <Component {...pageProps} />
       </Layout>
-
-      <Footer />
     </>
   );
 };

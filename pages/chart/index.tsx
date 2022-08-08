@@ -1,9 +1,11 @@
 import type { NextPage } from "next";
+import { NoteData } from "../../src/types";
 
 import { useRouter } from "next/router";
 import { useStore } from "../../src/lib/store";
 import styled, { ContentProps } from "styled-components";
 
+import NoteStorage from "../../src/api/storage";
 import printTime from "../../src/common/utils/printTime";
 
 import DonutChart from "../../src/features/chart/DonutChart";
@@ -32,8 +34,14 @@ const Content = styled.h1<ContentProps>`
 `;
 
 const Chart: NextPage = () => {
-  const { time, correctQuestions, incorrectQuestions, resetQuizData } =
-    useStore();
+  const {
+    time,
+    correctQuestions,
+    incorrectQuestions,
+    resetQuizData,
+    setNoteData,
+    init,
+  } = useStore();
   const router = useRouter();
 
   const handleQuizRetry = () => {
@@ -46,6 +54,54 @@ const Chart: NextPage = () => {
   };
 
   const handleNotePage = () => {
+    const newNoteData: NoteData = {
+      items: {},
+      ids: [],
+    };
+    const originNoteData = NoteStorage.getNoteData() || {
+      items: {},
+      ids: [],
+    };
+
+    if (originNoteData?.ids.length === 0) {
+      incorrectQuestions.forEach((value) => {
+        const id = value.question;
+
+        newNoteData.items[id] = {
+          question: id,
+          correctAnswer: value.correctAnswer,
+          incorrectAnswers: value.incorrectAnswers,
+          memo: "",
+        };
+
+        newNoteData.ids.push(id);
+        NoteStorage.setNoteData(newNoteData);
+        setNoteData(newNoteData);
+      });
+    } else {
+      incorrectQuestions.forEach((value) => {
+        const id = value.question;
+        if (originNoteData.items[id]) {
+          const index = originNoteData.ids.indexOf(id);
+          const temp = originNoteData.ids.splice(index, 1)[0];
+          originNoteData.ids.push(temp);
+        } else {
+          originNoteData.items[id] = {
+            question: id,
+            correctAnswer: value.correctAnswer,
+            incorrectAnswers: value.incorrectAnswers,
+            memo: "",
+          };
+
+          originNoteData.ids.push(id);
+        }
+      });
+
+      NoteStorage.setNoteData(originNoteData);
+      setNoteData(originNoteData);
+    }
+
+    init();
     router.push("/note");
   };
 
@@ -66,13 +122,13 @@ const Chart: NextPage = () => {
           <Content value={true}>정답: {correctQuestions.length}</Content>
           <Content value={false}>오답: {incorrectQuestions.length}</Content>
         </ContentContainer>
-
-        <BottonContainer>
-          <Button label="다시 풀기" onClick={handleQuizRetry} />
-          <Button label="처음 으로" onClick={handleHomePage} />
-          <Button label="오답 노트" onClick={handleNotePage} />
-        </BottonContainer>
       </Section>
+
+      <BottonContainer direction="column">
+        <Button label="다시 풀기" onClick={handleQuizRetry} />
+        <Button label="처음 으로" onClick={handleHomePage} />
+        <Button label="오답 노트" onClick={handleNotePage} />
+      </BottonContainer>
     </>
   );
 };
