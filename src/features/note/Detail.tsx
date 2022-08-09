@@ -11,44 +11,50 @@ import NoteStorage from "../../api/storage";
 import Button from "../../common/components/Button";
 
 const ModalQuestion = styled.h3`
-  padding-top: 20px;
+  height: 10%;
+  max-height: 10vh;
   color: var(--point-color);
+  font-size: 1rem;
 
   @media ${(props) => props.theme.mobile} {
-    padding-top: 10px;
-    font-size: 0.7rem;
+    font-size: 0.5rem;
   }
 `;
 
 const ModalCorrectAnswer = styled.div`
+  height: 5%;
+  max-height: 5vh;
   padding-top: 20px;
   color: var(--red-color);
 
   @media ${(props) => props.theme.mobile} {
     padding-top: 10px;
-    font-size: 0.5rem;
+    font-size: 0.4rem;
   }
 `;
 
 const ModalIncorrectAnswer = styled.div`
+  height: 5%;
+  max-height: 5vh;
   color: var(--dark-gray-color);
 
   @media ${(props) => props.theme.mobile} {
-    font-size: 0.5rem;
+    font-size: 0.4rem;
   }
 `;
 
 const ModalMemo = styled.textarea`
   width: 100%;
-  height: 100%;
-  max-height: 20vh;
-  margin-top: 20px;
+  height: 25%;
+  min-height: 25vh;
   border: 1px solid var(--light-gray-color);
+  margin-top: 10px;
   font-size: 1rem;
   resize: none;
   outline: none;
 
   @media ${(props) => props.theme.mobile} {
+    height: 20%;
     max-height: 20vh;
     font-size: 0.5rem;
   }
@@ -56,20 +62,25 @@ const ModalMemo = styled.textarea`
 
 const ButtonWrapper = styled.div`
   display: flex;
-  justify-content: space-evenly;
-  align-items: center;
+  justify-content: flex-end;
+  align-items: flex-end;
+  gap: 10px;
   width: 100%;
-  height: 100px;
+  height: 12%;
+  min-height: 12vh;
 
   @media ${(props) => props.theme.mobile} {
+    gap: 5px;
     height: 70px;
   }
 `;
 
 const customModalStyle = {
   content: {
-    width: "60%",
-    height: "50%",
+    width: "80%",
+    maxWidth: "80vh",
+    height: "60%",
+    maxHeight: "60vh",
     top: "50%",
     left: "50%",
     right: "auto",
@@ -78,6 +89,7 @@ const customModalStyle = {
     transform: "translate(-50%, -50%)",
     border: "2px solid var(--point-color)",
     borderRadius: "15px",
+    overflow: "hidden",
   },
 };
 
@@ -154,7 +166,6 @@ const Detail: NextPage<DetailProps> = ({
         })}
 
         <ModalMemo
-          defaultValue={noteData.items[data.question]?.memo}
           value={text}
           onChange={handleMemoChange}
           placeholder="기록된 내용이 없습니다."

@@ -31,7 +31,7 @@ const Wrapper = styled.button<ButtonStyleProps>`
   }
 
   @media ${(props) => props.theme.mobile} {
-    width: 80px;
+    width: 65px;
     height: 30px;
     font-size: 0.8rem;
   }
