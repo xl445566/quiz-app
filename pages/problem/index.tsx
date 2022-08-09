@@ -6,15 +6,28 @@ import {
   OnClick,
 } from "../../src/types/index";
 
-import { useEffect, useState } from "react";
+import Head from "next/head";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import { useStore } from "../../src/lib/store";
+import styled from "styled-components";
 
 import generateRandomIndex from "../../src/common/utils/generateRandomIndex";
 
 import BottonContainer from "../../src/common/components/ButtonContainer";
 import Button from "../../src/common/components/Button";
 import Quiz from "../../src/features/problem/Quiz";
+
+const Empty = styled.h1`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+`;
+
+const ERROR_CODE = 9999;
 
 const Problem: NextPage<ProblemProps> = ({ problems, randomNumbers }) => {
   const {
@@ -25,11 +38,11 @@ const Problem: NextPage<ProblemProps> = ({ problems, randomNumbers }) => {
     setQuizData,
     init,
   } = useStore();
-  const router = useRouter();
   const [number, setNumber] = useState<number>(0);
   const [mixedNumbers, setMixedNumbers] =
     useState<Array<number>>(randomNumbers);
   const [selectedAnswer, setSelectedAnswer] = useState<string>("");
+  const router = useRouter();
 
   useEffect(() => {
     init();
@@ -37,9 +50,7 @@ const Problem: NextPage<ProblemProps> = ({ problems, randomNumbers }) => {
     if (!quizData.list.length) {
       setQuizData(problems);
     }
-  }, [problems]);
 
-  useEffect(() => {
     const intervalID = setInterval(() => {
       addTime();
     }, 1000);
@@ -75,64 +86,100 @@ const Problem: NextPage<ProblemProps> = ({ problems, randomNumbers }) => {
     }
   };
 
+  const handleHomePage = () => {
+    router.push("/");
+  };
+
   const handleChartPage = () => {
-    router.push("chart");
+    router.push("/chart");
   };
 
   return (
     <>
-      <Quiz
-        problems={quizData.list.length ? quizData : problems}
-        number={number}
-        mixedNumbers={mixedNumbers}
-        selectedAnswer={selectedAnswer}
-        onCorrectClick={handleCorrectClick}
-      />
+      <Head>
+        <title>문제 풀이 중...</title>
+      </Head>
 
-      <BottonContainer direction="row">
-        {selectedAnswer && number < 9 && (
-          <Button label="다음 문제" onClick={handleNextProblem} />
-        )}
+      {problems.status === ERROR_CODE ? (
+        <Empty>
+          문제를 불러오는데 실패 했습니다.
+          <Button onClick={handleHomePage} label="돌아가기" />
+        </Empty>
+      ) : (
+        <>
+          <Quiz
+            problems={quizData.list.length ? quizData : problems}
+            number={number}
+            mixedNumbers={mixedNumbers}
+            selectedAnswer={selectedAnswer}
+            onCorrectClick={handleCorrectClick}
+          />
 
-        {selectedAnswer && number === 9 && (
-          <Button label="결과 보기" onClick={handleChartPage} />
-        )}
-      </BottonContainer>
+          <BottonContainer direction="row">
+            {selectedAnswer && number < 9 && (
+              <Button label="다음 문제" onClick={handleNextProblem} />
+            )}
+
+            {selectedAnswer && number === 9 && (
+              <Button label="결과 보기" onClick={handleChartPage} />
+            )}
+          </BottonContainer>
+        </>
+      )}
     </>
   );
 };
 
 export const getServerSideProps = async () => {
-  const response = await fetch(
-    "https://opentdb.com/api.php?amount=10&type=multiple&encode=url3986"
-  );
-  const data = await response.json();
-  const randomNumbers = generateRandomIndex(4);
-  const problems: Problems = {
-    status: data.response_code,
-    list: data.results.map((value: OriginProblem) => {
-      const question = decodeURIComponent(value.question);
-      const correctAnswer = decodeURIComponent(value.correct_answer);
-      const incorrectAnswers = value.incorrect_answers.map((value) =>
-        decodeURIComponent(value)
-      );
-      const answers = [correctAnswer, ...incorrectAnswers];
+  const url = process.env.API_QUIZ_DATA_URL;
 
-      return {
-        question,
-        correctAnswer,
-        incorrectAnswers,
-        answers,
-      };
-    }),
-  };
+  try {
+    const response = await fetch(url || "");
+    const data = await response.json();
+    const randomNumbers = generateRandomIndex(4);
+    const problems: Problems = {
+      status: data.response_code,
+      list: data.results.map((value: OriginProblem) => {
+        const question = decodeURIComponent(value.question);
+        const correctAnswer = decodeURIComponent(value.correct_answer);
+        const incorrectAnswers = value.incorrect_answers.map((value) =>
+          decodeURIComponent(value)
+        );
+        const answers = [correctAnswer, ...incorrectAnswers];
 
-  return {
-    props: {
-      randomNumbers,
-      problems,
-    },
-  };
+        return {
+          question,
+          correctAnswer,
+          incorrectAnswers,
+          answers,
+        };
+      }),
+    };
+
+    return {
+      props: {
+        randomNumbers,
+        problems,
+      },
+    };
+  } catch (error) {
+    const result = {
+      randomNumbers: [],
+      problems: {
+        status: ERROR_CODE,
+        list: {
+          question: "null",
+          correctAnswer: "null",
+          incorrectAnswers: ["null"],
+          answers: ["null"],
+        },
+      },
+    };
+
+    return {
+      props: result,
+    };
+  }
 };
 
 export default Problem;

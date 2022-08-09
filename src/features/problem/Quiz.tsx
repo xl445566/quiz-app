@@ -75,6 +75,10 @@ const Answer = styled.div<AnswerProps>`
     }
   }};
   cursor: pointer;
+
+  @media ${(props) => props.theme.mobile} {
+    font-size: 10px;
+  }
 `;
 
 const Quiz: NextPage<QuizProps> = ({

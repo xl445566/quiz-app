@@ -1,27 +1,41 @@
 import { LocalStorage, NoteStorageKey, NoteData } from "../types/index";
 
-abstract class Storage<T extends string> {
-  private readonly storage: LocalStorage;
+const getStorage = (): LocalStorage | undefined => {
+  if (typeof window !== "undefined") {
+    return window.localStorage;
+  }
+  return undefined;
+};
 
-  protected constructor(getStorage = (): LocalStorage => window.localStorage) {
+abstract class Storage<T extends string> {
+  private readonly storage: LocalStorage | undefined;
+
+  protected constructor(getStorage: () => LocalStorage | undefined) {
     this.storage = getStorage();
   }
 
   protected get(key: T): string | null {
-    return this.storage.getItem(key);
+    if (this.storage) {
+      return this.storage.getItem(key);
+    }
+    return null;
   }
 
   protected set(key: T, value: string): void {
-    this.storage.setItem(key, value);
+    if (this.storage) {
+      this.storage.setItem(key, value);
+    }
   }
 
   protected clearItem(key: T): void {
-    this.storage.removeItem(key);
+    if (this.storage) {
+      this.storage.removeItem(key);
+    }
   }
 }
 class NoteStorage extends Storage<NoteStorageKey> {
   constructor() {
-    super();
+    super(getStorage);
   }
 
   getNoteData(): NoteData | null {

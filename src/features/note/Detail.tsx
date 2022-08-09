@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import { DetailProps } from "../../types/index";
 
-import { useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { useStore } from "../../lib/store";
 import styled from "styled-components";
 import Modal from "react-modal";
@@ -13,15 +13,29 @@ import Button from "../../common/components/Button";
 const ModalQuestion = styled.h3`
   padding-top: 20px;
   color: var(--point-color);
+
+  @media ${(props) => props.theme.mobile} {
+    padding-top: 10px;
+    font-size: 0.7rem;
+  }
 `;
 
 const ModalCorrectAnswer = styled.div`
   padding-top: 20px;
   color: var(--red-color);
+
+  @media ${(props) => props.theme.mobile} {
+    padding-top: 10px;
+    font-size: 0.5rem;
+  }
 `;
 
 const ModalIncorrectAnswer = styled.div`
   color: var(--dark-gray-color);
+
+  @media ${(props) => props.theme.mobile} {
+    font-size: 0.5rem;
+  }
 `;
 
 const ModalMemo = styled.textarea`
@@ -33,6 +47,11 @@ const ModalMemo = styled.textarea`
   font-size: 1rem;
   resize: none;
   outline: none;
+
+  @media ${(props) => props.theme.mobile} {
+    max-height: 20vh;
+    font-size: 0.5rem;
+  }
 `;
 
 const ButtonWrapper = styled.div`
@@ -41,11 +60,15 @@ const ButtonWrapper = styled.div`
   align-items: center;
   width: 100%;
   height: 100px;
+
+  @media ${(props) => props.theme.mobile} {
+    height: 70px;
+  }
 `;
 
 const customModalStyle = {
   content: {
-    width: "80%",
+    width: "60%",
     height: "50%",
     top: "50%",
     left: "50%",
@@ -53,19 +76,33 @@ const customModalStyle = {
     bottom: "auto",
     marginRight: "-50%",
     transform: "translate(-50%, -50%)",
+    border: "2px solid var(--point-color)",
     borderRadius: "15px",
   },
 };
 
 Modal.setAppElement("#modal");
 
-const Detail: NextPage<DetailProps> = ({ data, isOpen, setIsOpen }) => {
+const Detail: NextPage<DetailProps> = ({
+  data,
+  setData,
+  isOpen,
+  setIsOpen,
+}) => {
   const noteStorage = NoteStorage.getNoteData() || {
     items: {},
     ids: [],
   };
   const { noteData, setNoteData } = useStore();
-  const memoRef = useRef<HTMLTextAreaElement>(null);
+  const [text, setText] = useState<string>("");
+
+  useEffect(() => {
+    setText(data.memo);
+  }, [data]);
+
+  const handleMemoChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setText(event.target.value);
+  };
 
   const handleModalClose = () => {
     setIsOpen(false);
@@ -74,12 +111,13 @@ const Detail: NextPage<DetailProps> = ({ data, isOpen, setIsOpen }) => {
   const handleMemoSave = () => {
     const id = data.question;
 
-    if (memoRef.current) {
-      noteStorage.items[id].memo = memoRef.current?.value;
-      NoteStorage.setNoteData(noteStorage);
-      setNoteData(noteStorage);
-    }
-
+    noteStorage.items[id].memo = text;
+    NoteStorage.setNoteData(noteStorage);
+    setNoteData(noteStorage);
+    setData({
+      ...data,
+      memo: text,
+    });
     setIsOpen(false);
   };
 
@@ -116,9 +154,9 @@ const Detail: NextPage<DetailProps> = ({ data, isOpen, setIsOpen }) => {
         })}
 
         <ModalMemo
-          ref={memoRef}
           defaultValue={noteData.items[data.question]?.memo}
-          value={memoRef.current?.value}
+          value={text}
+          onChange={handleMemoChange}
           placeholder="기록된 내용이 없습니다."
         />
 

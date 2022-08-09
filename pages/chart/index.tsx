@@ -1,6 +1,7 @@
 import type { NextPage } from "next";
 import { NoteData } from "../../src/types";
 
+import Head from "next/head";
 import { useRouter } from "next/router";
 import { useStore } from "../../src/lib/store";
 import styled, { ContentProps } from "styled-components";
@@ -43,10 +44,6 @@ const Chart: NextPage = () => {
     init,
   } = useStore();
   const router = useRouter();
-
-  const handleQuizRetry = () => {
-    router.push("/problem");
-  };
 
   const handleHomePage = () => {
     resetQuizData();
@@ -101,14 +98,22 @@ const Chart: NextPage = () => {
       setNoteData(originNoteData);
     }
 
-    init();
     router.push("/note");
+    init();
+  };
+
+  const handleProblemPage = () => {
+    router.push("/problem");
   };
 
   return (
     <>
+      <Head>
+        <title>결과</title>
+      </Head>
+
       <Section>
-        <Title>
+        <Title size="30">
           <Strong>결과</Strong>
         </Title>
 
@@ -125,9 +130,14 @@ const Chart: NextPage = () => {
       </Section>
 
       <BottonContainer direction="column">
-        <Button label="다시 풀기" onClick={handleQuizRetry} />
+        <Button label="다시 풀기" onClick={handleProblemPage} />
         <Button label="처음 으로" onClick={handleHomePage} />
-        <Button label="오답 노트" onClick={handleNotePage} />
+        <Button
+          color="red"
+          hoverColor="red"
+          label="오답 노트"
+          onClick={handleNotePage}
+        />
       </BottonContainer>
     </>
   );

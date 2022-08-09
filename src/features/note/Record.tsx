@@ -28,12 +28,15 @@ const Item = styled.div`
   display: inline-block;
   width: 100%;
   min-height: 30px;
-  border-bottom: 1px solid var(--point-color);
-  border-radius: 10px;
+  border-bottom: 1px solid var(--light-gray-color);
   line-height: 50px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+
+  @media ${(props) => props.theme.mobile} {
+    font-size: 12px;
+  }
 `;
 
 const Record: NextPage<RecordProps> = ({ data, onClick }) => {

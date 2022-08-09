@@ -3,13 +3,13 @@ import { Store } from "../types/index";
 import create from "zustand";
 
 export const useStore = create<Store>((set) => ({
+  correctQuestions: [],
+  incorrectQuestions: [],
+  time: 0,
   quizData: {
     status: 0,
     list: [],
   },
-  correctQuestions: [],
-  incorrectQuestions: [],
-  time: 0,
   noteData: {
     items: {},
     ids: [],
