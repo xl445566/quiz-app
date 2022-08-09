@@ -2,8 +2,9 @@ import type { NextPage } from "next";
 import { Note, ClickEvent } from "../../src/types";
 
 import React, { useState, useEffect } from "react";
-import { useRouter } from "next/router";
 import { useStore } from "../../src/lib/store";
+import { useRouter } from "next/router";
+import Head from "next/head";
 
 import NoteStorage from "../../src/api/storage";
 
@@ -16,7 +17,6 @@ import Record from "../../src/features/note/Record";
 import Detail from "../../src/features/note/Detail";
 
 const NotePage: NextPage = () => {
-  const router = useRouter();
   const { noteData, setNoteData } = useStore();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [modalData, setModalData] = useState<Note>({
@@ -25,19 +25,15 @@ const NotePage: NextPage = () => {
     incorrectAnswers: [],
     memo: "",
   });
+  const router = useRouter();
 
   useEffect(() => {
-    const result = NoteStorage.getNoteData() || {
-      items: {},
-      ids: [],
-    };
+    const result = NoteStorage.getNoteData();
 
-    setNoteData(result);
+    if (result) {
+      setNoteData(result);
+    }
   }, []);
-
-  const handleHomepage = () => {
-    router.push("/");
-  };
 
   const handleModalOpen = (event: ClickEvent) => {
     const id = event.currentTarget.dataset.fullName;
@@ -54,8 +50,16 @@ const NotePage: NextPage = () => {
     setIsModalOpen(true);
   };
 
+  const handleHomePage = () => {
+    router.push("/");
+  };
+
   return (
     <>
+      <Head>
+        <title>오답 노트</title>
+      </Head>
+
       <Section>
         <Title>
           <Strong>오답노트</Strong>
@@ -63,6 +67,7 @@ const NotePage: NextPage = () => {
 
         <Detail
           data={modalData}
+          setData={setModalData}
           isOpen={isModalOpen}
           setIsOpen={setIsModalOpen}
         />
@@ -71,7 +76,12 @@ const NotePage: NextPage = () => {
       </Section>
 
       <BottonContainer direction="column">
-        <Button label="나가기" onClick={handleHomepage} />
+        <Button
+          onClick={handleHomePage}
+          color="red"
+          hoverColor="red"
+          label="나가기"
+        />
       </BottonContainer>
     </>
   );

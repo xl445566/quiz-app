@@ -9,8 +9,17 @@ const Section = styled.section`
   height: 40%;
   min-height: 40vh;
   text-align: center;
-  @media screen and (max-width: 500px) {
-    flex-direction: column;
+
+  @media ${(props) => props.theme.mobile} {
+    ul {
+      font-size: 15px;
+    }
+  }
+  @media ${(props) => props.theme.desktop} {
+    justify-content: center;
+    ul {
+      font-size: 25px;
+    }
   }
 `;
 

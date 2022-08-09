@@ -19,6 +19,7 @@ const Wrapper = styled.button<ButtonStyleProps>`
   }};
   color: var(--white-color);
   font-size: 1rem;
+
   :hover {
     ${(props) => {
       if (!props.color) {
@@ -27,6 +28,12 @@ const Wrapper = styled.button<ButtonStyleProps>`
         return "background-color: var(--redSub-color)";
       }
     }};
+  }
+
+  @media ${(props) => props.theme.mobile} {
+    width: 80px;
+    height: 30px;
+    font-size: 0.8rem;
   }
 `;
 
@@ -37,9 +44,11 @@ const Button: NextPage<ButtonProps> = ({
   hoverColor = "",
 }) => {
   return (
-    <Wrapper onClick={onClick} color={color} hoverColor={hoverColor}>
-      {label}
-    </Wrapper>
+    <div>
+      <Wrapper onClick={onClick} color={color} hoverColor={hoverColor}>
+        {label}
+      </Wrapper>
+    </div>
   );
 };
 
