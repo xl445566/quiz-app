@@ -19,4 +19,8 @@ declare module "styled-components" {
     color: string;
     hoverColor: string;
   }
+
+  export interface TitleProps {
+    size?: string;
+  }
 }

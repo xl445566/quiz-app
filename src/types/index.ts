@@ -50,7 +50,7 @@ export type OnClick = (
 
 export interface ButtonProps {
   label: string;
-  onClick: OnClick;
+  onClick?: OnClick;
   color?: string;
   hoverColor?: string;
 }
@@ -63,6 +63,7 @@ export interface RecordProps {
 
 export interface DetailProps {
   data: Note;
+  setData: (state: Note) => void;
   isOpen: boolean;
   setIsOpen: (state: boolean) => void;
 }
