@@ -43,17 +43,22 @@ const Record: NextPage<RecordProps> = ({ data, onClick }) => {
   return (
     <>
       {data.ids.length ? (
-        <ItemList>
-          {data.ids.reverse().map((value) => {
+        <ItemList data-cy="memoList">
+          {data.ids.reverse().map((value, index) => {
             return (
-              <Item key={value} onClick={onClick} data-full-name={value}>
+              <Item
+                data-cy={"memo" + index}
+                key={value}
+                onClick={onClick}
+                data-full-name={value}
+              >
                 {value}
               </Item>
             );
           })}
         </ItemList>
       ) : (
-        <Empty>작성된 오답 노트가 없습니다.</Empty>
+        <Empty data-cy="empty">작성된 오답 노트가 없습니다.</Empty>
       )}
     </>
   );

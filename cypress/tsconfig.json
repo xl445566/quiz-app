@@ -4,8 +4,8 @@
     "lib": ["es5", "dom"],
     "allowJs": true,
     "types": ["cypress", "node", "@testing-library/cypress"],
-    "outDir": "#",
-    "baseUrl": "../node_modules"
+    "outDir": "#"
   },
-  "include": ["**/*.ts", "./**/*.spec.*"]
+  "include": ["**/*.tsx", "**/*.ts", "./**/*.spec.*"],
+  "exclude": ["node_modules"]
 }

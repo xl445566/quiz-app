@@ -97,9 +97,10 @@ const Quiz: NextPage<QuizProps> = ({
       </Question>
 
       <Answers>
-        {mixedNumbers.map((value: number) => {
+        {mixedNumbers.map((value: number, index: number) => {
           return (
             <Answer
+              data-cy={"answer" + index}
               key={value}
               onClick={onCorrectClick}
               textContent={problems.list[number].answers[value]}
