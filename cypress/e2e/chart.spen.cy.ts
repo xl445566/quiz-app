@@ -1,4 +1,4 @@
-describe("chart 페이지", () => {
+export default describe("chart 페이지", () => {
   beforeEach(() => {
     cy.wait(1000);
 

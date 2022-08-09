@@ -1,4 +1,4 @@
-describe("problem 페이지", () => {
+export default describe("problem 페이지", () => {
   it("렌더링 테스트", () => {
     cy.visit("/problem");
 
@@ -14,9 +14,9 @@ describe("problem 페이지", () => {
 
     cy.get("button").should("have.length", 1);
 
-    cy.get("button").contains("다음 문제");
+    cy.get("button").contains("다음 문항");
 
-    cy.get("button").contains("다음 문제").click();
+    cy.get("button").contains("다음 문항").click();
 
     cy.get("button").should("have.length", 0);
   });
@@ -32,7 +32,7 @@ describe("problem 페이지", () => {
       cy.get("[data-cy=answer0]").click();
 
       if (i < 9) {
-        cy.get("button").contains("다음 문제").click();
+        cy.get("button").contains("다음 문항").click();
       } else {
         cy.get("button").contains("결과 보기");
 

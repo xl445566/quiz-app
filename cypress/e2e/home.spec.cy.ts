@@ -1,4 +1,4 @@
-describe("home 페이지", () => {
+export default describe("home 페이지", () => {
   beforeEach(() => {
     cy.visit("");
   });
@@ -9,7 +9,7 @@ describe("home 페이지", () => {
     cy.get("h1").contains("퀴즈 설명");
 
     cy.get("li").contains(
-      "퀴즈 시작 버튼을 누르시면 퀴즈 풀기를 시작할 수 있습니다."
+      "퀴즈 풀기 버튼을 누르시면 퀴즈 풀기를 시작할 수 있습니다."
     );
 
     cy.get("li").contains(
@@ -23,7 +23,7 @@ describe("home 페이지", () => {
     );
 
     cy.get("li").contains(
-      "다음 문제 버튼을 누르시면 다음 문항으로 이동합니다."
+      "다음 문항 버튼을 누르시면 다음 문항으로 이동합니다."
     );
 
     cy.get("li").contains(
@@ -34,13 +34,13 @@ describe("home 페이지", () => {
       "다시 풀기, 오답 노트 기능을 누르면 처음부터 문제를 다시 풀거나 오답 노트를 작성할 수 있습니다."
     );
 
-    cy.get("button").contains("퀴즈 시작");
+    cy.get("button").contains("퀴즈 풀기");
 
     cy.get("button").contains("오답 노트");
   });
 
   it("퀴즈 시작 버튼 테스트", () => {
-    cy.get("button").contains("퀴즈 시작").click();
+    cy.get("button").contains("퀴즈 풀기").click();
 
     cy.wait(1000);
 

@@ -117,7 +117,7 @@ const Problem: NextPage<ProblemProps> = ({ problems, randomNumbers }) => {
 
           <BottonContainer direction="row">
             {selectedAnswer && number < 9 && (
-              <Button label="다음 문제" onClick={handleNextProblem} />
+              <Button label="다음 문항" onClick={handleNextProblem} />
             )}
 
             {selectedAnswer && number === 9 && (

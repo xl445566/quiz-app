@@ -1,4 +1,4 @@
-describe("note 페이지", () => {
+export default describe("note 페이지", () => {
   it("렌더링 테스트", () => {
     cy.visit("/note");
 
@@ -20,7 +20,9 @@ describe("note 페이지", () => {
   });
 
   it("오답노트 CRUD 테스트", () => {
-    cy.get("button").contains("퀴즈 시작").click();
+    cy.wait(500);
+
+    cy.get("button").contains("퀴즈 풀기").click();
 
     const createData = () => {
       for (let i = 0; i < 10; i++) {
@@ -29,7 +31,7 @@ describe("note 페이지", () => {
         cy.get("[data-cy=answer0]").click();
 
         if (i < 9) {
-          cy.get("button").contains("다음 문제").click();
+          cy.get("button").contains("다음 문항").click();
         } else {
           cy.get("button").contains("결과 보기");
 

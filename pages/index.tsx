@@ -24,7 +24,7 @@ const Home: NextPage<InstructionProps> = ({ data }) => {
       <Instrunction data={data} />
 
       <BottonContainer direction="column">
-        <Button onClick={handleProblemPage} label="퀴즈 시작" />
+        <Button onClick={handleProblemPage} label="퀴즈 풀기" />
         <Button
           onClick={handleNotePage}
           color="red"
@@ -42,7 +42,7 @@ export const getStaticProps = async () => {
     contents: [
       {
         id: uuidv4(),
-        content: "퀴즈 시작 버튼을 누르시면 퀴즈 풀기를 시작할 수 있습니다.",
+        content: "퀴즈 풀기 버튼을 누르시면 퀴즈 풀기를 시작할 수 있습니다.",
       },
       {
         id: uuidv4(),
@@ -55,7 +55,7 @@ export const getStaticProps = async () => {
       },
       {
         id: uuidv4(),
-        content: "다음 문제 버튼을 누르시면 다음 문항으로 이동합니다.",
+        content: "다음 문항 버튼을 누르시면 다음 문항으로 이동합니다.",
       },
       {
         id: uuidv4(),
