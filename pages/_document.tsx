@@ -1,5 +1,3 @@
-import type { NextPage } from "next";
-
 import Document, {
   Html,
   Head,
