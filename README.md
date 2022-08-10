@@ -62,7 +62,7 @@
 
 ### 프로덕션
 
-- xxx.xxx.xxx
+- https://quizquizapp.netlify.app
 
 ### 개발
 
