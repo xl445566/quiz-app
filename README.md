@@ -1,4 +1,4 @@
-## Quiz-App
+## [Quiz-App](https://quizquizapp.netlify.app)
 
 ---
 
@@ -54,17 +54,21 @@
 
 - 테스트: Cypress
 
+- 배포: Netlify
+
 </br><br/>
 
 ## 실행 방법
 
 ---
 
-### 프로덕션
+### 프로덕션 모드
 
-- https://quizquizapp.netlify.app
+- yarn build
 
-### 개발
+- yarn start
+
+### 개발 모드
 
 - root 경로에 .env 파일 생성 후 아래의 환경 변수를 입력해 줍니다.  
   API_QUIZ_DATA_URL=https://opentdb.com/api.php?amount=10&type=multiple&encode=url3986
@@ -74,6 +78,12 @@
 - yarn dev
 
 - 크롬에서 http://localhost:3000 접속
+
+### 테스트 모드
+
+- yarn test 명령 후 실행되는 cypress gui를 통해 e2e 테스트 선택 -> 크롬 선택 -> spec에서 all.spec.cy.ts를 실행하면 모든 케이슬 테스트 할 수 있습니다.
+
+- yarn dev 후 터미널 창을 하나 더 생성 후 yarn cypress:run을 통해 터미널로 테스트를 진행할 수 있습니다.
 
 </br></br>
 
@@ -103,6 +113,6 @@ css파일을 추가적으로 작성하지 않고 컴포넌트화가 쉬우며 �
 
 ### Cypress
 
-테스트 코드로는 UI로 직관적이게 확인이 가능한 Cypress를 통해 e2e테스트를 작성했습니다.
-기존 jest로 작성할 때보다 직관적이고 익히기 어렵지 않다고 느꼈고 무엇보다 UI로 사용자가 앱을 사용해 보는 과정에서
-이상이 없는지 확인할 수 있는 점이 좋은 개발경험으로 남았습니다.
+테스트 코드로는 UI로 확인이 가능한 cypress 통해 e2e테스트를 작성했습니다.
+그 동안은 jest를 이용해 단위,통합 테스트를 작성했었는데 cypress를 통해 e2e테스트를 작성하며 UI로 실제 유저가 사용하며 모든 동작이 어우러지는지  
+UI로 볼 수 있어 좋은 개발 경험을 얻었습니다. 커버리지는 95% 달성했습니다.

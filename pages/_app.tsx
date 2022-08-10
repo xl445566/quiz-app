@@ -9,7 +9,7 @@ import GlobalStyle from "../styles/globalStyle";
 import Head from "next/head";
 
 import Header from "../src/common/components/Header";
-import Loading from "../src/common/components/Loding";
+import Loading from "../src/common/components/Loading";
 
 const Layout = styled.main`
   display: flex;
@@ -48,6 +48,7 @@ const MyApp: NextPage<AppProps> = ({ Component, pageProps }) => {
   return (
     <>
       <Head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>퀴즈 앱</title>
       </Head>
 
