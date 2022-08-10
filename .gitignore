@@ -35,4 +35,3 @@ next-env.d.ts
 # cypress
 /cypress/videos
 .nyc_output
-coverage
