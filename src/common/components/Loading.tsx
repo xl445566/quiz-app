@@ -8,7 +8,7 @@ const BounceAnimation = keyframes`
     margin-bottom: 0; 
   }
   50% { 
-    margin-bottom: 5px;
+    margin-bottom: 3px;
   }
   100% { 
     margin-bottom: 0;
@@ -19,13 +19,16 @@ const Wrapper = styled.div`
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  color: var(--pointer-color);
+
+  h5 {
+    color: var(--pointer-color);
+  }
 `;
 
 const Dot = styled.div<DotProps>`
-  width: 5px;
-  height: 5px;
-  margin: 0 2.5px;
+  width: 3px;
+  height: 3px;
+  margin: 0 1.5px;
   border-radius: 50%;
   background-color: var(--point-color);
 
