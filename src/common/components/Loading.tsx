@@ -10,7 +10,7 @@ const BounceAnimation = keyframes`
     margin-bottom: 0; 
   }
   50% { 
-    margin-bottom: 3px;
+    margin-bottom: 6px;
   }
   100% { 
     margin-bottom: 0;
