@@ -1,6 +1,8 @@
 import type { NextPage } from "next";
 import type { AppProps } from "next/app";
 
+import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 import styled, { ThemeProvider } from "styled-components";
 import theme from "../styles/theme";
 import GlobalStyle from "../styles/globalStyle";
@@ -19,6 +21,29 @@ const Layout = styled.main`
 `;
 
 const MyApp: NextPage<AppProps> = ({ Component, pageProps }) => {
+  const [loading, setLoading] = useState<boolean>(false);
+  const router = useRouter();
+
+  useEffect(() => {
+    const start = () => {
+      setLoading(true);
+    };
+
+    const end = () => {
+      setLoading(false);
+    };
+
+    router.events.on("routeChangeStart", start);
+    router.events.on("routeChangeComplete", end);
+    router.events.on("routeChangeError", end);
+
+    return () => {
+      router.events.off("routeChangeStart", start);
+      router.events.off("routeChangeComplete", end);
+      router.events.off("routeChangeError", end);
+    };
+  }, []);
+
   return (
     <>
       <Head>
@@ -30,7 +55,7 @@ const MyApp: NextPage<AppProps> = ({ Component, pageProps }) => {
         <Header />
 
         <Layout>
-          <Component {...pageProps} />
+          {loading ? <h1>로딩중...</h1> : <Component {...pageProps} />}
         </Layout>
       </ThemeProvider>
     </>
