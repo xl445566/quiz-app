@@ -38,6 +38,8 @@ export interface Note {
 }
 
 // common
+export type ChangeEvent = React.ChangeEvent<HTMLTextAreaElement>;
+
 export type ClickEvent =
   | React.MouseEvent<HTMLButtonElement | HTMLDivElement>
   | React.TouchEvent<HTMLButtonElement | HTMLDivElement>;

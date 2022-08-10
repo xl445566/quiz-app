@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import { DetailProps } from "../../types/index";
+import { DetailProps, ChangeEvent } from "../../types/index";
 
 import React, { useState, useEffect } from "react";
 import { useStore } from "../../lib/store";
@@ -105,14 +105,14 @@ const Detail: NextPage<DetailProps> = ({
     items: {},
     ids: [],
   };
-  const { noteData, setNoteData } = useStore();
+  const { setNoteData } = useStore();
   const [text, setText] = useState<string>("");
 
   useEffect(() => {
     setText(data.memo);
   }, [data]);
 
-  const handleMemoChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleMemoChange = (event: ChangeEvent) => {
     setText(event.target.value);
   };
 
