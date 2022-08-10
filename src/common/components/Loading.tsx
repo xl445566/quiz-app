@@ -3,6 +3,8 @@ import { DotProps } from "styled-components";
 
 import styled, { keyframes } from "styled-components";
 
+import Strong from "./Strong";
+
 const BounceAnimation = keyframes`
   0% { 
     margin-bottom: 0; 
@@ -19,9 +21,13 @@ const Wrapper = styled.div`
   display: flex;
   align-items: flex-end;
   justify-content: center;
+`;
 
-  h5 {
-    color: var(--pointer-color);
+const Text = styled.div`
+  color: var(--point-color);
+
+  @media ${(props) => props.theme.desktop} {
+    font-size: 1.2rem;
   }
 `;
 
@@ -39,7 +45,9 @@ const Dot = styled.div<DotProps>`
 const Loading: NextPage = () => {
   return (
     <Wrapper>
-      <h5>불러오는 중</h5>
+      <Strong>
+        <Text>불러오는 중</Text>
+      </Strong>
 
       <Dot delay="0s" />
       <Dot delay="0.1s" />
