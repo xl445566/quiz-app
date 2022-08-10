@@ -9,6 +9,7 @@ import GlobalStyle from "../styles/globalStyle";
 import Head from "next/head";
 
 import Header from "../src/common/components/Header";
+import Loading from "../src/common/components/Loding";
 
 const Layout = styled.main`
   display: flex;
@@ -54,9 +55,7 @@ const MyApp: NextPage<AppProps> = ({ Component, pageProps }) => {
       <ThemeProvider theme={theme}>
         <Header />
 
-        <Layout>
-          {loading ? <h1>로딩중...</h1> : <Component {...pageProps} />}
-        </Layout>
+        <Layout>{loading ? <Loading /> : <Component {...pageProps} />}</Layout>
       </ThemeProvider>
     </>
   );

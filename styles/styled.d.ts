@@ -23,4 +23,8 @@ declare module "styled-components" {
   export interface TitleProps {
     size?: string;
   }
+
+  export interface DotProps {
+    delay: string;
+  }
 }
