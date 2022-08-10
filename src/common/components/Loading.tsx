@@ -35,7 +35,7 @@ export const Dot = styled.div<DotProps>`
 const Loading: NextPage = () => {
   return (
     <Wrapper>
-      <p>불러오는 중</p>
+      <h4>불러오는 중</h4>
 
       <Dot delay="0s" />
       <Dot delay="0.1s" />
