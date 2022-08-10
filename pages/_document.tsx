@@ -49,7 +49,7 @@ export default class MyDocument extends Document {
           <meta
             name="keywords"
             content="Quiz, App, Problem, Solve, Random, Note"
-          ></meta>
+          />
           <meta property="og:title" content="Random Quiz App" />
           <meta property="og:url" content="https://quizquizapp.netlify.app" />
           <meta property="og:type" content="Web-App" />
