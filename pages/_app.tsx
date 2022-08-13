@@ -6,8 +6,8 @@ import { useRouter } from "next/router";
 import styled, { ThemeProvider } from "styled-components";
 import theme from "../styles/theme";
 import GlobalStyle from "../styles/globalStyle";
-import Head from "next/head";
 
+import Head from "next/head";
 import Header from "../src/common/components/Header";
 import Loading from "../src/common/components/Loading";
 
